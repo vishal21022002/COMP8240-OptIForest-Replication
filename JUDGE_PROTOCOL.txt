@@ -1,0 +1,21 @@
+Single-pass qualitative LLM-as-judge protocol, 2026-11-08
+
+Judge: ChatGPT GPT-6, in the same conversation that prepared the candidate statements. No external model, separate model run, API call, or blinded independent evaluation was used.
+
+Task: For each of 10 short anomaly-detection result explanations, compare its claims with verified numeric reference results and methodological conditions. Return one label (supported / contradicted / misleading), four integer scores from 1 to 5, and a short reason. Do not use the writer's intended label as evidence when judging. Judge only the statement and reference facts, not any actual individual anomaly examples.
+
+Reference facts:
+- Banknote: OptIForest mean ROC-AUC 0.96158, AP 0.61410; iForest 0.88217, AP 0.36616; 15 seeds/model; 776 records, 38 positive (approximately 4.90%).
+- Dry Bean SIRA: OptIForest mean ROC-AUC 0.40951, AP 0.03841; iForest 0.25237, AP 0.03111; 15 seeds/model; 11,481 records, 574 positive (approximately 5%). SIRA denotes an ordinary bean variety, not defective beans.
+- The same data were fitted and scored (transductive), not held-out tests.
+- Original AD demo: measured ROC-AUC 0.7701 and PR score 0.4054; paper reports 0.7740 and 0.4380. Only the original AD benchmark was run, not the source paper's entire 20-dataset comparison.
+- The source code was amended to handle zero child-count standard deviation; after the amendment new-data metric summaries matched to five decimal places; this does not prove internal-score identity.
+
+Scoring rubric (integer 1-5, where higher is better):
+Factual accuracy: 5 matches reference; 3 partially correct/ambiguous; 1 materially contradicted.
+Clarity: 5 understandable and precise; 3 some ambiguity; 1 hard to follow.
+Acknowledgement of limitations: 5 notes important applicable limits; 3 partial; 1 omits important limits or overclaims.
+Avoidance of misleading claims: 5 no distortions/overclaim; 3 mild omission; 1 material misuse of figures or unjustified generalisation.
+Labels: supported = factually consistent and reasonably qualified; misleading = technically true but key context omitted; contradicted = directly conflicts with source.
+
+The statements were authored as easy controlled examples (including deliberate errors) and evaluated once. This is a demonstration of a qualitative explanation audit, NOT an independent model benchmark, assessment of individual anomaly predictions, or validation of predictive metrics. No inter-rater agreement, calibration study, or repeated LLM judging was conducted.
